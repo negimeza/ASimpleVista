@@ -178,6 +178,9 @@
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .form-submit { width: 100%; background: var(--green-dark); color: var(--cream); border: none; padding: 1rem; font-size: .85rem; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; border-radius: 8px; transition: background .2s; margin-top: .4rem; font-family: 'Nunito', sans-serif; font-weight: 600; }
     .form-submit:hover { background: var(--green-light); }
+    .field-error { display: none; font-size: .75rem; color: #e74c3c; margin-top: .3rem; }
+    .field-error.visible { display: block; }
+    .input-error { border-color: #e74c3c !important; }
 
     /* MARCAS */
     #marcas { background: var(--white); text-align: center; }
@@ -469,15 +472,26 @@
   </div>
   <div class="cita-form reveal">
     <h3 class="form-title">Solicitar Cita</h3>
-    <p class="form-subtitle">Te contactaremos para confirmar tu hora por WhatsApp</p>
+    <p class="form-subtitle">Al enviar se abrirá WhatsApp con tu información lista 🦉</p>
     <div class="form-row">
-      <div class="form-group"><label>Nombre</label><input type="text" placeholder="Tu nombre"/></div>
-      <div class="form-group"><label>Apellido</label><input type="text" placeholder="Tu apellido"/></div>
+      <div class="form-group">
+        <label>Nombre <span style="color:#e74c3c">*</span></label>
+        <input type="text" id="f-nombre" placeholder="Tu nombre"/>
+        <span class="field-error" id="err-nombre">Por favor ingresa tu nombre</span>
+      </div>
+      <div class="form-group">
+        <label>Apellido</label>
+        <input type="text" id="f-apellido" placeholder="Tu apellido"/>
+      </div>
     </div>
-    <div class="form-group"><label>WhatsApp / Teléfono</label><input type="tel" placeholder="3XX XXX XXXX"/></div>
     <div class="form-group">
-      <label>Servicio que necesitas</label>
-      <select>
+      <label>WhatsApp / Teléfono <span style="color:#e74c3c">*</span></label>
+      <input type="tel" id="f-tel" placeholder="3XX XXX XXXX"/>
+      <span class="field-error" id="err-tel">Por favor ingresa tu número de WhatsApp</span>
+    </div>
+    <div class="form-group">
+      <label>Servicio que necesitas <span style="color:#e74c3c">*</span></label>
+      <select id="f-servicio">
         <option value="">Selecciona un servicio</option>
         <option>Consulta de Optometría</option>
         <option>Lentes Formulados</option>
@@ -486,10 +500,11 @@
         <option>Gafas de Sol</option>
         <option>Urgencia Visual</option>
       </select>
+      <span class="field-error" id="err-servicio">Por favor selecciona un servicio</span>
     </div>
-    <div class="form-group"><label>Fecha preferida</label><input type="date"/></div>
-    <div class="form-group"><label>¿Algo que debamos saber? (opcional)</label><textarea rows="3" placeholder="Ej: uso gafas desde hace 2 años, tengo miopía..."></textarea></div>
-    <button class="form-submit" onclick="alert('¡Solicitud enviada! Te contactaremos pronto por WhatsApp. 🦉👁️')">Enviar Solicitud de Cita</button>
+    <div class="form-group"><label>Fecha preferida</label><input type="date" id="f-fecha"/></div>
+    <div class="form-group"><label>¿Algo que debamos saber? (opcional)</label><textarea rows="3" id="f-nota" placeholder="Ej: uso gafas desde hace 2 años, tengo miopía..."></textarea></div>
+    <button class="form-submit" onclick="enviarCita()">📲 Enviar por WhatsApp</button>
   </div>
 </section>
 
@@ -533,10 +548,17 @@
 <!-- INSTAGRAM -->
 <section id="instagram">
   <svg class="ig-owl" viewBox="0 0 80 80" fill="none">
+    <!-- Cuerpo -->
     <ellipse cx="40" cy="52" rx="22" ry="24" fill="#F8F4EC"/>
+    <!-- Alas -->
     <ellipse cx="15" cy="54" rx="9" ry="15" fill="#40916C" transform="rotate(-15 15 54)"/>
     <ellipse cx="65" cy="54" rx="9" ry="15" fill="#40916C" transform="rotate(15 65 54)"/>
+    <!-- Cabeza -->
     <ellipse cx="40" cy="30" rx="20" ry="19" fill="#F8F4EC"/>
+    <!-- OREJAS -->
+    <polygon points="26,14 21,3 33,10" fill="#F8F4EC" stroke="#74C69D" stroke-width="1"/>
+    <polygon points="54,14 59,3 47,10" fill="#F8F4EC" stroke="#74C69D" stroke-width="1"/>
+    <!-- Ojos -->
     <circle cx="31" cy="30" r="10" fill="white" stroke="#74C69D" stroke-width="2.5"/>
     <circle cx="49" cy="30" r="10" fill="white" stroke="#74C69D" stroke-width="2.5"/>
     <path d="M41 30 Q40 27 39 30" stroke="#74C69D" stroke-width="2" stroke-linecap="round"/>
@@ -544,7 +566,12 @@
     <circle cx="49" cy="31" r="5" fill="#40916C"/>
     <circle cx="33" cy="29" r="1.5" fill="white"/>
     <circle cx="51" cy="29" r="1.5" fill="white"/>
+    <!-- Pico -->
     <polygon points="40,37 36,43 44,43" fill="#C8963C"/>
+    <!-- Pies -->
+    <ellipse cx="34" cy="74" rx="7" ry="4" fill="#C8963C"/>
+    <ellipse cx="46" cy="74" rx="7" ry="4" fill="#C8963C"/>
+    <!-- Sonrisa -->
     <path d="M36 61 Q40 65 44 61" stroke="#74C69D" stroke-width="1.5" stroke-linecap="round" fill="none"/>
   </svg>
   <h2 class="section-title">Síguenos en <em>Instagram</em></h2>
@@ -561,15 +588,23 @@
     <div>
       <div class="footer-brand-logo">
         <svg width="36" height="36" viewBox="0 0 80 80" fill="none">
+          <!-- Cuerpo -->
           <ellipse cx="40" cy="52" rx="22" ry="24" fill="#F8F4EC"/>
+          <!-- Alas -->
           <ellipse cx="15" cy="54" rx="9" ry="15" fill="#2D6A4F" transform="rotate(-15 15 54)"/>
           <ellipse cx="65" cy="54" rx="9" ry="15" fill="#2D6A4F" transform="rotate(15 65 54)"/>
+          <!-- Cabeza -->
           <ellipse cx="40" cy="30" rx="20" ry="19" fill="#F8F4EC"/>
+          <!-- OREJAS -->
+          <polygon points="26,14 21,3 33,10" fill="#F8F4EC" stroke="#40916C" stroke-width="1"/>
+          <polygon points="54,14 59,3 47,10" fill="#F8F4EC" stroke="#40916C" stroke-width="1"/>
+          <!-- Ojos -->
           <circle cx="31" cy="30" r="10" fill="white" stroke="#40916C" stroke-width="2.5"/>
           <circle cx="49" cy="30" r="10" fill="white" stroke="#40916C" stroke-width="2.5"/>
           <path d="M41 30 Q40 27 39 30" stroke="#40916C" stroke-width="2" stroke-linecap="round"/>
           <circle cx="31" cy="31" r="5" fill="#40916C"/>
           <circle cx="49" cy="31" r="5" fill="#40916C"/>
+          <!-- Pico -->
           <polygon points="40,37 36,43 44,43" fill="#C8963C"/>
         </svg>
         <span>A Simple Vista</span>
@@ -616,26 +651,80 @@
   // Menú hamburguesa
   const ham = document.getElementById('ham');
   const mobileMenu = document.getElementById('mobileMenu');
-
   ham.addEventListener('click', () => {
     const isOpen = mobileMenu.classList.contains('open');
-    if (isOpen) {
-      closeMenu();
-    } else {
-      mobileMenu.classList.add('open');
-      ham.classList.add('active');
-      document.body.classList.add('menu-open');
-    }
+    if (isOpen) { closeMenu(); }
+    else { mobileMenu.classList.add('open'); ham.classList.add('active'); document.body.classList.add('menu-open'); }
   });
-
   function closeMenu() {
-    mobileMenu.classList.remove('open');
-    ham.classList.remove('active');
-    document.body.classList.remove('menu-open');
+    mobileMenu.classList.remove('open'); ham.classList.remove('active'); document.body.classList.remove('menu-open');
+  }
+  window.addEventListener('scroll', () => { if (scrollY > 80) closeMenu(); });
+
+  // ── FORMULARIO → WHATSAPP ──
+  function enviarCita() {
+    let valido = true;
+
+    // Limpiar errores anteriores
+    document.querySelectorAll('.field-error').forEach(e => e.classList.remove('visible'));
+    document.querySelectorAll('.input-error').forEach(e => e.classList.remove('input-error'));
+
+    const nombre   = document.getElementById('f-nombre');
+    const apellido = document.getElementById('f-apellido');
+    const tel      = document.getElementById('f-tel');
+    const servicio = document.getElementById('f-servicio');
+    const fecha    = document.getElementById('f-fecha');
+    const nota     = document.getElementById('f-nota');
+
+    if (!nombre.value.trim()) {
+      nombre.classList.add('input-error');
+      document.getElementById('err-nombre').classList.add('visible');
+      valido = false;
+    }
+    if (!tel.value.trim()) {
+      tel.classList.add('input-error');
+      document.getElementById('err-tel').classList.add('visible');
+      valido = false;
+    }
+    if (!servicio.value) {
+      servicio.classList.add('input-error');
+      document.getElementById('err-servicio').classList.add('visible');
+      valido = false;
+    }
+
+    if (!valido) {
+      // Scroll al primer error
+      document.querySelector('.input-error').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Armar mensaje WhatsApp
+    const nl = '%0A';
+    let msg = `🦉 *Solicitud de Cita – A Simple Vista*${nl}${nl}`;
+    msg += `👤 *Nombre:* ${nombre.value.trim()} ${apellido.value.trim()}${nl}`;
+    msg += `📞 *Teléfono:* ${tel.value.trim()}${nl}`;
+    msg += `👁️ *Servicio:* ${servicio.value}${nl}`;
+    if (fecha.value) {
+      const [y,m,d] = fecha.value.split('-');
+      msg += `📅 *Fecha preferida:* ${d}/${m}/${y}${nl}`;
+    }
+    if (nota.value.trim()) msg += `📝 *Observaciones:* ${nota.value.trim()}${nl}`;
+    msg += `${nl}_Enviado desde la página web de A Simple Vista_`;
+
+    window.open(`https://wa.me/573023915428?text=${msg}`, '_blank');
   }
 
-  // Cerrar menú al hacer scroll
-  window.addEventListener('scroll', () => { if (scrollY > 80) closeMenu(); });
+  // Limpiar error al escribir o cambiar
+  ['f-nombre','f-tel','f-servicio'].forEach(id => {
+    const el = document.getElementById(id);
+    const errEl = document.getElementById('err-' + id.replace('f-',''));
+    ['input','change'].forEach(ev => {
+      el.addEventListener(ev, () => {
+        el.classList.remove('input-error');
+        if (errEl) errEl.classList.remove('visible');
+      });
+    });
+  });
 
   // Reveal on scroll
   const obs = new IntersectionObserver((entries) => {
