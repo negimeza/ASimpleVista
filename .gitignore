@@ -1,0 +1,16 @@
+# Carpeta de habilidades (documentación interna)
+skills/
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
