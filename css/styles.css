@@ -278,10 +278,19 @@ nav.scrolled {
 .hamburger {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   cursor: pointer;
   z-index: 210;
-  padding: 4px;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  outline: none;
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+}
+
+.hamburger:hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .hamburger span {
