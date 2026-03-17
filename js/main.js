@@ -422,6 +422,173 @@ const RevealAnimations = {
 };
 
 /* ========================================
+   LU-MI: CONTROLADOR DEL ASISTENTE
+   ======================================== */
+const LumiController = {
+  container: null,
+  bubble: null,
+  text: null,
+  clickArea: null,
+  isAtLeft: false,
+  
+  messages: [
+    "¡Hola! Soy Lumi, tu guía para una visión perfecta.",
+    "¿Sabías que debemos revisar nuestra vista una vez al año?",
+    "La regla 20-20-20: cada 20 minutos, descansa la vista 20 segundos.",
+    "Recuerda parpadear con frecuencia al usar pantallas para evitar la sequedad.",
+    "Usa lentes con protección UV para cuidar tu retina de la luz solar.",
+    "Tus ojos se cansan menos si mantienes una buena iluminación al leer.",
+    "Contamos con más de 50 marcas de monturas para resaltar tu estilo.",
+    "¿Viendo borroso? Toca cualquier búho para agendar tu revisión.",
+    "Mantén tu pantalla a la distancia de un brazo para evitar fatiga visual.",
+    "El consumo de vitamina A favorece la salud de tus ojos a largo plazo.",
+    "Atendemos todos los días en el consultorio SUSALUD EMO.",
+    "Una visión clara mejora significativamente tu calidad de vida."
+  ],
+  
+  lastActivity: Date.now(),
+  isResting: false,
+  
+  init() {
+    this.container = document.getElementById('lumi-container');
+    this.bubble = document.getElementById('lumi-bubble');
+    this.text = document.getElementById('lumi-text');
+    this.clickArea = document.getElementById('lumi-click-area');
+    
+    if (!this.container || !this.clickArea) return;
+    
+    this.bindEvents();
+    this.startLifecycle();
+  },
+  
+  bindEvents() {
+    // Escuchar a TODOS los disparadores de Lumi (búhos en la página)
+    document.querySelectorAll('.lumi-trigger').forEach(trigger => {
+      trigger.addEventListener('click', (e) => {
+        // Prevenir navegación si es un enlace (como el logo)
+        if (trigger.tagName === 'A') {
+          e.preventDefault();
+        }
+        
+        if (trigger.id === 'lumi-click-area') return;
+        this.say("Claro, te ayudo a agendar tu cita médica.", true);
+        setTimeout(() => Modal.open(), 800);
+      });
+    });
+
+    // Clic directo en Lumi (el flotante)
+    this.clickArea.addEventListener('click', () => {
+      this.backflip();
+      this.say("Vamos a coordinar tu examen visual.", true);
+      setTimeout(() => Modal.open(), 1000);
+    });
+    
+    window.addEventListener('scroll', () => {
+      this.handleScroll();
+      this.wakeUp();
+    }, { passive: true });
+
+    document.addEventListener('mousemove', () => this.wakeUp());
+  },
+  
+  startLifecycle() {
+    setTimeout(() => this.say(this.messages[0]), 2000);
+    
+    setInterval(() => {
+      if (this.isResting) return;
+      const randomMsg = this.messages[Math.floor(Math.random() * this.messages.length)];
+      this.say(randomMsg);
+    }, 40000);
+
+    // Movimiento de patrullaje cada 25 segundos
+    setInterval(() => this.patrol(), 25000);
+    
+    // Detección de inactividad cada 10 segundos
+    setInterval(() => this.checkInactivity(), 10000);
+    
+    setInterval(() => this.wander(), 5000);
+  },
+  
+  say(message, important = false) {
+    if (!this.bubble || !this.text) return;
+    this.text.textContent = message;
+    this.bubble.classList.add('visible');
+    
+    if (important) {
+      this.container.classList.add('glow');
+      setTimeout(() => this.container.classList.remove('glow'), 2000);
+    }
+
+    setTimeout(() => this.bubble.classList.remove('visible'), 7000);
+  },
+
+  patrol() {
+    const roles = ['left', 'right', 'center', 'peeking'];
+    const newPos = roles[Math.floor(Math.random() * roles.length)];
+    
+    // Limpiar estados previos
+    this.container.classList.remove('left', 'center', 'peeking');
+    this.container.classList.add('flying');
+
+    if (newPos === 'peeking') {
+      this.container.classList.add('peeking');
+      if (Math.random() > 0.5) this.container.classList.add('left');
+      this.say("Solo me asomo para ver si necesitas ayuda...");
+    } else if (newPos === 'center') {
+      this.container.classList.add('center');
+      this.say("Desde aquí tengo una mejor vista de todo.");
+    } else if (newPos === 'left') {
+      this.container.classList.add('left');
+      this.say("Cambiando de posición estratégica.");
+    } else {
+      this.say("Regresando a mi rincón favorito.");
+    }
+
+    setTimeout(() => {
+      this.container.classList.remove('flying');
+      if (Math.random() > 0.6) this.backflip();
+    }, 850);
+  },
+
+  backflip() {
+    this.container.classList.add('backflip');
+    setTimeout(() => this.container.classList.remove('backflip'), 800);
+  },
+
+  checkInactivity() {
+    if (Date.now() - this.lastActivity > 30000 && !this.isResting) {
+      this.isResting = true;
+      this.container.classList.add('resting');
+      this.say("Entrando en modo descanso visual...");
+    }
+  },
+
+  wakeUp() {
+    this.lastActivity = Date.now();
+    if (this.isResting) {
+      this.isResting = false;
+      this.container.classList.remove('resting');
+      this.backflip();
+      this.say("¡Ya desperté! Continuemos con tu examen.");
+    }
+  },
+  
+  wander() {
+    // Sutil movimiento orgánico
+    const x = Math.floor(Math.random() * 10) - 5;
+    const y = Math.floor(Math.random() * 10) - 5;
+    this.container.style.transform = `translate(${x}px, ${y}px)`;
+  },
+  
+  handleScroll() {
+    const scrollPercent = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
+    if (scrollPercent > 0.95) {
+      this.say("Antes de irte, recuerda agendar tu revisión anual.", true);
+    }
+  }
+};
+
+/* ========================================
    INICIALIZACIÓN
    ======================================== */
 document.addEventListener('DOMContentLoaded', () => {
@@ -429,4 +596,5 @@ document.addEventListener('DOMContentLoaded', () => {
   Modal.init();
   AppointmentForm.init();
   RevealAnimations.init();
+  LumiController.init();
 });

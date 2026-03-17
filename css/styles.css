@@ -1227,14 +1227,21 @@ footer {
 .footer-brand-logo {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  margin-bottom: 1rem;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.footer-brand-logo .owl-svg {
+  margin: 0; /* Override global center margin */
+  width: 42px;
+  height: 42px;
 }
 
 .footer-brand-logo span {
   font-family: 'Playfair Display', serif;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   color: var(--cream);
+  font-weight: 700;
 }
 
 .footer-tagline {
@@ -1361,6 +1368,284 @@ footer {
   50% {
     box-shadow: 0 8px 40px rgba(37, 211, 102, 0.75);
   }
+}
+
+/* ========================================
+   LU-MI: EL BÚHO ASISTENTE
+   ======================================== */
+.lumi-container {
+  position: fixed;
+  bottom: 110px;
+  right: 20px;
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;
+  /* Transición suave tipo "vuelo rápido" */
+  transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lumi-bubble {
+  background: var(--white);
+  padding: 0.8rem 1.2rem;
+  border-radius: 18px 18px 2px 18px;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 12px;
+  max-width: 220px;
+  border: 1px solid var(--green-soft);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: all;
+  position: relative;
+}
+
+.lumi-bubble.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.lumi-bubble p {
+  font-size: 0.85rem;
+  color: var(--ink);
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.lumi-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 15px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--white);
+}
+
+.lumi-owl-wrapper {
+  width: 65px;
+  height: 65px;
+  cursor: pointer;
+  pointer-events: all;
+  animation: lumi-float 3s ease-in-out infinite;
+  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+  transition: transform 0.3s ease;
+}
+
+.lumi-owl-wrapper:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.lumi-owl-svg {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes lumi-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-30px) rotate(3deg); }
+  75% { transform: translateY(-10px) rotate(-3deg); }
+}
+
+/* EFECTOS AVANZADOS */
+.lumi-container.center {
+  right: 50%;
+  transform: translateX(50%);
+  align-items: center;
+}
+
+.lumi-container.center .lumi-bubble {
+  border-radius: 18px;
+}
+
+.lumi-container.center .lumi-bubble::after {
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.lumi-container.peeking {
+  transform: translateX(45px); /* Se asoma solo un poco */
+}
+
+.lumi-container.left.peeking {
+  transform: translateX(-45px);
+}
+
+.lumi-container.backflip .lumi-owl-wrapper {
+  animation: lumi-backflip 0.8s ease-in-out;
+}
+
+@keyframes lumi-backflip {
+  0% { transform: rotate(0deg) scale(1.1); }
+  50% { transform: rotate(180deg) scale(1.4); }
+  100% { transform: rotate(360deg) scale(1.1); }
+}
+
+.lumi-container.glow .lumi-owl-wrapper {
+  filter: drop-shadow(0 0 20px rgba(116, 198, 157, 0.8));
+  transition: filter 0.5s ease;
+}
+
+.lumi-container.resting .lumi-owl-wrapper {
+  animation-duration: 6s; /* Flotación mucho más lenta */
+  opacity: 0.8;
+}
+
+/* Efecto de arco al volar de un lado a otro */
+.lumi-container.flying {
+  animation: lumi-arc-jump 0.8s cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+@keyframes lumi-arc-jump {
+  0%, 100% { margin-bottom: 0px; }
+  50% { margin-bottom: 120px; } /* Gran arco hacia arriba durante el vuelo */
+}
+
+/* Alas rápidas al volar */
+.lumi-container.flying .lumi-wing-l,
+.lumi-container.flying .lumi-wing-r {
+  animation-duration: 0.2s; /* Aleteo súper rápido */
+}
+
+
+@keyframes lumi-wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+.lumi-container.walking {
+  animation: lumi-wobble 0.5s ease infinite;
+}
+
+/* Soporte para Lumi a la izquierda */
+.lumi-container.left {
+  right: auto;
+  left: 20px;
+  align-items: flex-start;
+}
+
+.lumi-container.left .lumi-bubble {
+  border-radius: 18px 18px 18px 2px;
+}
+
+.lumi-container.left .lumi-bubble::after {
+  right: auto;
+  left: 15px;
+}
+
+/* Girar a Lumi para que mire al centro cuando está a la izquierda */
+.lumi-container.left .lumi-owl-wrapper {
+  transform: scaleX(-1);
+}
+
+.lumi-container.left .lumi-owl-wrapper:hover {
+  transform: scaleX(-1) scale(1.1) rotate(-5deg);
+}
+
+
+/* Animaciones Únicas para la Red de Búhos */
+.owl-anim-blink .owl-svg circle[fill="white"] + circle[fill="#1B4332"],
+.owl-anim-blink .owl-svg circle[fill="white"] + circle[fill="#40916C"] {
+  animation: owl-blink 4s infinite;
+}
+
+.owl-svg {
+  display: block;
+  margin: 0 auto;
+  transform-origin: center;
+}
+
+@keyframes owl-blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+.owl-anim-float-wide {
+  animation: owl-float-wide 6s ease-in-out infinite;
+}
+
+@keyframes owl-float-wide {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(15px, -10px) rotate(3deg); }
+  66% { transform: translate(-10px, -15px) rotate(-3deg); }
+}
+
+.owl-anim-tilt {
+  animation: owl-tilt 4s ease-in-out infinite;
+}
+
+@keyframes owl-tilt {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+}
+
+.owl-anim-pulse {
+  animation: owl-pulse 3s ease-in-out infinite;
+}
+
+@keyframes owl-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.owl-anim-bounce {
+  animation: owl-bounce 2.5s ease-in-out infinite;
+}
+
+@keyframes owl-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.owl-anim-breathe {
+  animation: owl-breathe 5s ease-in-out infinite;
+}
+
+@keyframes owl-breathe {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.95); opacity: 0.7; }
+}
+
+/* Gatillos Globales de Lumi */
+.lumi-trigger {
+  cursor: pointer !important;
+  transition: transform var(--transition-normal), filter var(--transition-normal);
+}
+
+.lumi-trigger:hover {
+  transform: scale(1.05);
+}
+
+.lumi-trigger .owl-svg {
+  transition: filter var(--transition-normal);
+}
+
+.lumi-trigger:hover .owl-svg {
+  filter: drop-shadow(0 0 8px rgba(116, 198, 157, 0.4));
+}
+
+/* Animación de alas para Lumi */
+.lumi-wing-l {
+  transform-origin: 15px 54px;
+  animation: lumi-flap-l 2s ease-in-out infinite;
+}
+
+.lumi-wing-r {
+  transform-origin: 65px 54px;
+  animation: lumi-flap-r 2s ease-in-out infinite;
+}
+
+@keyframes lumi-flap-l {
+  0%, 100% { transform: rotate(-15deg) scale(1); }
+  50% { transform: rotate(-60deg) scaleX(1.3) scaleY(0.9); }
+}
+
+@keyframes lumi-flap-r {
+  0%, 100% { transform: rotate(15deg) scale(1); }
+  50% { transform: rotate(60deg) scaleX(1.3) scaleY(0.9); }
 }
 
 .reveal {

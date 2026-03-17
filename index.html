@@ -36,7 +36,7 @@
   <div class="modal-box">
     <div class="modal-header">
       <div class="modal-header-left">
-        <svg class="modal-owl" viewBox="0 0 80 80" fill="none">
+        <svg class="modal-owl owl-anim-pulse" viewBox="0 0 80 80" fill="none">
           <ellipse cx="40" cy="52" rx="22" ry="24" fill="#F8F4EC"/>
           <ellipse cx="15" cy="54" rx="9" ry="15" fill="#40916C" transform="rotate(-15 15 54)"/>
           <ellipse cx="65" cy="54" rx="9" ry="15" fill="#40916C" transform="rotate(15 65 54)"/>
@@ -51,6 +51,9 @@
           <circle cx="33" cy="29" r="1.5" fill="white"/>
           <circle cx="51" cy="29" r="1.5" fill="white"/>
           <polygon points="40,37 36,43 44,43" fill="#C8963C"/>
+          <!-- Pies -->
+          <ellipse cx="34" cy="74" rx="7" ry="4" fill="#C8963C"/>
+          <ellipse cx="46" cy="74" rx="7" ry="4" fill="#C8963C"/>
         </svg>
         <div>
           <div class="modal-title" id="modal-title">Agendar Cita</div>
@@ -106,8 +109,8 @@
 
 <!-- NAV -->
 <nav id="navbar" role="navigation" aria-label="Menú principal">
-  <a href="/" class="logo" aria-label="A Simple Vista - Inicio">
-    <svg width="44" height="44" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+  <a href="/" class="logo lumi-trigger" aria-label="A Simple Vista - Inicio" title="Agendar cita con Lumi">
+    <svg width="44" height="44" viewBox="0 0 80 80" fill="none" aria-hidden="true" class="owl-svg owl-anim-blink">
       <ellipse cx="40" cy="52" rx="22" ry="24" fill="#F8F4EC"/>
       <ellipse cx="15" cy="54" rx="9" ry="15" fill="#2D6A4F" transform="rotate(-15 15 54)"/>
       <ellipse cx="65" cy="54" rx="9" ry="15" fill="#2D6A4F" transform="rotate(15 65 54)"/>
@@ -177,8 +180,8 @@
   <div class="hero-right">
     <div class="owl-hero-wrap">
       <div class="orbit-ring"><div class="orbit-dot"></div></div>
-      <div class="owl-circle">
-        <svg class="owl-hero-svg" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+      <div class="owl-circle lumi-trigger" title="Agendar cita con Lumi">
+        <svg class="owl-hero-svg owl-svg owl-anim-float-wide" viewBox="0 0 80 80" fill="none" aria-hidden="true">
           <ellipse cx="40" cy="52" rx="22" ry="24" fill="#F8F4EC"/>
           <ellipse cx="15" cy="54" rx="9" ry="15" fill="#40916C" transform="rotate(-15 15 54)"/>
           <ellipse cx="65" cy="54" rx="9" ry="15" fill="#40916C" transform="rotate(15 65 54)"/>
@@ -200,8 +203,10 @@
         </svg>
       </div>
       <div class="float-card">
-        <div class="float-card-label">📍 Ubicación</div>
-        <div class="float-card-val">Cra 19 #23-06<br><small style="font-size:.78rem;color:#5A6B60;font-family:Nunito,sans-serif"><a href="https://www.susaludemo.com.co/" target="_blank" rel="noopener noreferrer" style="color:var(--green-mid);text-decoration:none;font-weight:600">Dentro de SUSALUD EMO</a></small></div>
+        <a href="https://www.google.com/maps/search/?api=1&query=Carrera+19+nro+23-06+Yarumal+Antioquia" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;display:block">
+          <div class="float-card-label">📍 Ubicación</div>
+          <div class="float-card-val">Cra 19 #23-06<br><small style="font-size:.78rem;color:#5A6B60;font-family:Nunito,sans-serif;pointer-events:none">Dentro de SUSALUD EMO</small></div>
+        </a>
       </div>
       <div class="float-card2">
         <div class="float-card2-val">📞 3023915428</div>
@@ -255,7 +260,7 @@
   <div class="nosotros-text reveal">
     <span class="section-label">Quiénes somos</span>
     <h2 class="section-title">Los lentes <em>correctos</em><br>cambian todo.</h2>
-    <p>Somos una óptica ubicada en el corazón de Yarumal, Antioquia, dentro del consultorio médico <a href="https://www.susaludemo.com.co/" target="_blank" rel="noopener noreferrer" style="color:#74C69D;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(116,198,157,0.4)">SUSALUD EMO</a> (Carrera 19 #23-06). Atendemos con dedicación a cada paciente porque creemos que ver bien es vivir mejor.</p>
+    <p>Somos una óptica ubicada en el corazón de Yarumal, Antioquia, dentro del consultorio médico <a href="https://www.susaludemo.com.co/" target="_blank" rel="noopener noreferrer" style="color:#74C69D;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(116,198,157,0.4)">SUSALUD EMO</a> (<a href="https://www.google.com/maps/search/?api=1&query=Carrera+19+nro+23-06+Yarumal+Antioquia" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;border-bottom:1px dashed rgba(116,198,157,0.4)">Carrera 19 #23-06</a>). Atendemos con dedicación a cada paciente porque creemos que ver bien es vivir mejor.</p>
     <p>Nuestro equipo está comprometido con tu salud visual: desde el examen hasta la entrega de tus lentes, te acompañamos en cada paso con calidez y profesionalismo.</p>
     <div class="values-grid">
       <div class="value-item"><h4>🔬 Precisión</h4><p>Exámenes detallados para el diagnóstico correcto desde la primera consulta.</p></div>
@@ -265,8 +270,8 @@
     </div>
   </div>
   <div class="nosotros-visual reveal">
-    <div class="owl-card">
-      <svg class="owl-card-svg" viewBox="0 0 80 80" fill="none">
+    <div class="owl-card lumi-trigger" title="Agendar cita con Lumi">
+      <svg class="owl-card-svg owl-svg owl-anim-tilt" viewBox="0 0 80 80" fill="none">
         <ellipse cx="40" cy="52" rx="22" ry="24" fill="#F8F4EC"/>
         <ellipse cx="15" cy="54" rx="9" ry="15" fill="#40916C" transform="rotate(-15 15 54)"/>
         <ellipse cx="65" cy="54" rx="9" ry="15" fill="#40916C" transform="rotate(15 65 54)"/>
@@ -306,7 +311,7 @@
     <div class="contact-items">
       <div class="contact-item">
         <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-        <div><h5>Dirección</h5><p>Carrera 19 nro 23-06 · <a href="https://www.susaludemo.com.co/" target="_blank" rel="noopener noreferrer" style="color:var(--green-mid);font-weight:600;text-decoration:none">Dentro de SUSALUD EMO</a> · Yarumal, Antioquia</p></div>
+        <div><h5>Dirección</h5><p><a href="https://www.google.com/maps/search/?api=1&query=Carrera+19+nro+23-06+Yarumal+Antioquia" target="_blank" rel="noopener noreferrer" style="color:var(--ink);text-decoration:none">Carrera 19 nro 23-06</a> · <a href="https://www.susaludemo.com.co/" target="_blank" rel="noopener noreferrer" style="color:var(--green-mid);font-weight:600;text-decoration:none">Dentro de SUSALUD EMO</a> · Yarumal, Antioquia</p></div>
       </div>
       <div class="contact-item">
         <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.03 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
@@ -322,8 +327,8 @@
       </div>
     </div>
   </div>
-  <div class="cita-form reveal" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--green-dark);border-radius:20px;padding:3.5rem 3rem;box-shadow:0 20px 60px rgba(27,67,50,.2);">
-    <svg width="90" height="90" viewBox="0 0 80 80" fill="none" style="margin-bottom:1.5rem">
+  <div class="cita-form reveal lumi-trigger" title="Agendar cita con Lumi" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--green-dark);border-radius:20px;padding:3.5rem 3rem;box-shadow:0 20px 60px rgba(27,67,50,.2);">
+    <svg width="90" height="90" viewBox="0 0 80 80" fill="none" style="margin-bottom:1.5rem" class="owl-svg owl-anim-pulse">
       <ellipse cx="40" cy="52" rx="22" ry="24" fill="#F8F4EC"/>
       <ellipse cx="15" cy="54" rx="9" ry="15" fill="#40916C" transform="rotate(-15 15 54)"/>
       <ellipse cx="65" cy="54" rx="9" ry="15" fill="#40916C" transform="rotate(15 65 54)"/>
@@ -338,6 +343,8 @@
       <circle cx="33" cy="29" r="1.5" fill="white"/>
       <circle cx="51" cy="29" r="1.5" fill="white"/>
       <polygon points="40,37 36,43 44,43" fill="#C8963C"/>
+      <ellipse cx="34" cy="74" rx="7" ry="4" fill="#C8963C"/>
+      <ellipse cx="46" cy="74" rx="7" ry="4" fill="#C8963C"/>
       <path d="M36 61 Q40 65 44 61" stroke="#74C69D" stroke-width="1.5" stroke-linecap="round" fill="none"/>
     </svg>
     <h3 style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--cream);margin-bottom:.8rem">¿Todo listo?</h3>
@@ -388,7 +395,7 @@
 
 <!-- INSTAGRAM -->
 <section id="instagram">
-  <svg class="ig-owl" viewBox="0 0 80 80" fill="none">
+  <svg class="ig-owl lumi-trigger owl-svg owl-anim-bounce" viewBox="0 0 80 80" fill="none" title="Agendar cita con Lumi">
     <!-- Cuerpo -->
     <ellipse cx="40" cy="52" rx="22" ry="24" fill="#F8F4EC"/>
     <!-- Alas -->
@@ -427,8 +434,8 @@
 <footer id="footer">
   <div class="footer-grid">
     <div>
-      <div class="footer-brand-logo">
-        <svg width="36" height="36" viewBox="0 0 80 80" fill="none">
+      <div class="footer-brand-logo lumi-trigger" title="Agendar cita con Lumi">
+        <svg width="36" height="36" viewBox="0 0 80 80" fill="none" class="owl-svg owl-anim-breathe">
           <!-- Cuerpo -->
           <ellipse cx="40" cy="52" rx="22" ry="24" fill="#F8F4EC"/>
           <!-- Alas -->
@@ -447,6 +454,9 @@
           <circle cx="49" cy="31" r="5" fill="#40916C"/>
           <!-- Pico -->
           <polygon points="40,37 36,43 44,43" fill="#C8963C"/>
+          <!-- Pies -->
+          <ellipse cx="34" cy="74" rx="7" ry="4" fill="#C8963C"/>
+          <ellipse cx="46" cy="74" rx="7" ry="4" fill="#C8963C"/>
         </svg>
         <span>A Simple Vista</span>
       </div>
@@ -468,21 +478,50 @@
         <li><a href="tel:3023915428">📞 3023915428</a></li>
         <li><a href="tel:3146584800">📞 3146584800</a></li>
         <li><a href="https://instagram.com/asimplevista_optica" target="_blank" rel="noopener noreferrer">📸 @asimplevista_optica</a></li>
-        <li><a href="#cita">📍 Cra 19 #23-06, Yarumal</a></li>
+        <li><a href="https://www.google.com/maps/search/?api=1&query=Carrera+19+nro+23-06+Yarumal+Antioquia" target="_blank" rel="noopener noreferrer">📍 Cra 19 #23-06, Yarumal</a></li>
         <li><a href="https://www.susaludemo.com.co/" target="_blank" rel="noopener noreferrer">🏥 Dentro de SUSALUD EMO</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2025 A Simple Vista Óptica · Yarumal, Antioquia · Todos los derechos reservados</span>
+    <span>© 2025 A Simple Vista Óptica · Yarumal, Antioquia · Todos los derechos reservados · <span style="opacity:0.6">✒️ Chimu</span></span>
     <a href="https://instagram.com/asimplevista_optica" target="_blank" rel="noopener noreferrer">Instagram 🦉</a>
   </div>
 </footer>
+
+<!-- LU-MI: El Búho Asistente -->
+<div id="lumi-container" class="lumi-container" aria-live="polite">
+  <div class="lumi-bubble" id="lumi-bubble">
+    <p id="lumi-text">¡Hola! Soy Lumi, ¿te ayudo con algo? 🦉</p>
+  </div>
+  <div class="lumi-owl-wrapper" id="lumi-click-area">
+    <svg class="lumi-owl-svg" viewBox="0 0 80 80" fill="none">
+      <ellipse cx="40" cy="52" rx="22" ry="24" fill="#F8F4EC"/>
+      <ellipse cx="15" cy="54" rx="9" ry="15" fill="#40916C" class="lumi-wing-l" transform="rotate(-15 15 54)"/>
+      <ellipse cx="65" cy="54" rx="9" ry="15" fill="#40916C" class="lumi-wing-r" transform="rotate(15 65 54)"/>
+      <ellipse cx="40" cy="30" rx="20" ry="19" fill="#F8F4EC"/>
+      <polygon points="26,14 21,3 33,10" fill="#F8F4EC" stroke="#74C69D" stroke-width="1"/>
+      <polygon points="54,14 59,3 47,10" fill="#F8F4EC" stroke="#74C69D" stroke-width="1"/>
+      <circle cx="31" cy="30" r="10" fill="white" stroke="#1B4332" stroke-width="2.5"/>
+      <circle cx="49" cy="30" r="10" fill="white" stroke="#1B4332" stroke-width="2.5"/>
+      <path d="M41 30 Q40 27 39 30" stroke="#1B4332" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="31" cy="31" r="5" fill="#1B4332"/>
+      <circle cx="49" cy="31" r="5" fill="#1B4332"/>
+      <circle cx="33" cy="29" r="1.5" fill="white"/>
+      <circle cx="51" cy="29" r="1.5" fill="white"/>
+      <polygon points="40,37 36,43 44,43" fill="#C8963C"/>
+      <ellipse cx="34" cy="74" rx="7" ry="4" fill="#C8963C"/>
+      <ellipse cx="46" cy="74" rx="7" ry="4" fill="#C8963C"/>
+      <path d="M36 61 Q40 65 44 61" stroke="#74C69D" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    </svg>
+  </div>
+</div>
 
 <!-- WhatsApp flotante -->
 <a class="wa-float" href="https://wa.me/573023915428" target="_blank" rel="noopener noreferrer" title="Escríbenos por WhatsApp" aria-label="Contactar por WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.555 4.12 1.527 5.849L.057 23.492a.75.75 0 00.921.921l5.643-1.47A11.934 11.934 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.64-.522-5.138-1.427l-.369-.217-3.742.975.992-3.634-.24-.378A10 10 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
 </a>
+
   <!-- External JavaScript -->
   <script src="js/main.js" defer></script>
 </body>
