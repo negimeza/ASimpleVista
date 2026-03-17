@@ -448,12 +448,23 @@ const LumiController = {
   
   lastActivity: Date.now(),
   isResting: false,
+  isHidden: false,
+  cycleTimer: null,
+  pupils: [],
+  shines: [],
+  lastScrollTop: 0,
+  scrollSpeedTimer: null,
+  isDizzy: false,
   
   init() {
     this.container = document.getElementById('lumi-container');
     this.bubble = document.getElementById('lumi-bubble');
     this.text = document.getElementById('lumi-text');
     this.clickArea = document.getElementById('lumi-click-area');
+    
+    // Selectores para ojos
+    this.pupils = document.querySelectorAll('.lumi-pupil-l, .lumi-pupil-r');
+    this.shines = document.querySelectorAll('.lumi-eye-shine');
     
     if (!this.container || !this.clickArea) return;
     
@@ -470,6 +481,9 @@ const LumiController = {
           e.preventDefault();
         }
         
+        // Si está escondida, aparecer de inmediato
+        if (this.isHidden) this.show();
+
         if (trigger.id === 'lumi-click-area') return;
         this.say("Claro, te ayudo a agendar tu cita médica.", true);
         setTimeout(() => Modal.open(), 800);
@@ -485,32 +499,135 @@ const LumiController = {
     
     window.addEventListener('scroll', () => {
       this.handleScroll();
+      this.handleScrollSpeed(); // Nueva: detectar mareo
       this.wakeUp();
+      // Si se mueve mucho el scroll, Lumi aparece curiosa
+      if (this.isHidden && Math.random() > 0.98) this.show();
     }, { passive: true });
 
-    document.addEventListener('mousemove', () => this.wakeUp());
+    document.addEventListener('mousemove', (e) => {
+      this.wakeUp();
+      this.updateEyeTracking(e); // Nueva: seguir cursor
+    });
+  },
+
+  updateEyeTracking(e) {
+    if (this.isResting || this.isDizzy) return;
+
+    // Actualizar CADA búho en la página de forma independiente
+    document.querySelectorAll('.owl-svg, .lumi-owl-svg, .modal-owl').forEach(owl => {
+      const r = owl.getBoundingClientRect();
+      const owlX = r.left + r.width / 2;
+      const owlY = r.top + r.height / 2;
+
+      const angle = Math.atan2(e.clientY - owlY, e.clientX - owlX);
+      const distance = Math.min(3, Math.hypot(e.clientX - owlX, e.clientY - owlY) / 100);
+
+      const tx = Math.cos(angle) * distance;
+      const ty = Math.sin(angle) * distance;
+
+      owl.querySelectorAll('.lumi-pupil-l, .lumi-pupil-r').forEach(p => {
+        p.style.transform = `translate(${tx}px, ${ty}px)`;
+      });
+      owl.querySelectorAll('.lumi-eye-shine').forEach(s => {
+        s.style.transform = `translate(${tx * 0.5}px, ${ty * 0.5}px)`;
+      });
+    });
+  },
+
+  handleScrollSpeed() {
+    const st = window.pageYOffset || document.documentElement.scrollTop;
+    const diff = Math.abs(st - this.lastScrollTop);
+    this.lastScrollTop = st <= 0 ? 0 : st;
+
+    // Si el scroll es muy agresivo (ej: > 100px por evento)
+    if (diff > 120 && !this.isDizzy && !this.isHidden) {
+      this.getDizzy();
+    }
+  },
+
+  getDizzy() {
+    this.isDizzy = true;
+    this.container.classList.add('dizzy');
+    this.say("¡Ufff, qué velocidad! Me mareé un poco... 😵‍💫", true);
+    
+    setTimeout(() => {
+      this.container.classList.remove('dizzy');
+      this.backflip(); // Sacudirse para recuperarse
+      this.isDizzy = false;
+      setTimeout(() => this.say("¡Listo! Ya recuperé el enfoque."), 1000);
+    }, 2000);
   },
   
   startLifecycle() {
-    setTimeout(() => this.say(this.messages[0]), 2000);
+    // Primera aparición
+    setTimeout(() => this.show(), 2000);
     
+    // Mensajes aleatorios
     setInterval(() => {
-      if (this.isResting) return;
+      if (this.isResting || this.isHidden) return;
       const randomMsg = this.messages[Math.floor(Math.random() * this.messages.length)];
       this.say(randomMsg);
     }, 40000);
 
-    // Movimiento de patrullaje cada 25 segundos
-    setInterval(() => this.patrol(), 25000);
+    // Ciclo de visibilidad (Escondite)
+    this.planNextCycle();
     
+    // Gestos aleatorios (Inclinación de cabeza)
+    setInterval(() => {
+      if (this.isHidden || this.isResting || this.isDizzy) return;
+      if (Math.random() > 0.7) {
+        this.container.classList.add('tilt');
+        setTimeout(() => this.container.classList.remove('tilt'), 1500);
+      }
+    }, 12000);
+
     // Detección de inactividad cada 10 segundos
     setInterval(() => this.checkInactivity(), 10000);
     
     setInterval(() => this.wander(), 5000);
   },
+
+  planNextCycle() {
+    if (this.cycleTimer) clearTimeout(this.cycleTimer);
+
+    const delay = this.isHidden 
+      ? Math.random() * 20000 + 10000 // Reaparecer en 10-30 seg
+      : Math.random() * 30000 + 40000; // Esconderse en 40-70 seg
+
+    this.cycleTimer = setTimeout(() => {
+      this.isHidden ? this.show() : this.hide();
+      this.planNextCycle();
+    }, delay);
+  },
+
+  hide() {
+    if (this.isHidden) return;
+    this.isHidden = true;
+    this.container.classList.add('hidden');
+    // Cerrar burbuja si está abierta
+    this.bubble.classList.remove('visible');
+  },
+
+  show() {
+    if (!this.isHidden && this.container.classList.contains('hidden') === false) {
+      // Si ya está visible, solo patrullar para cambiar de lugar
+      this.patrol();
+      return;
+    }
+    
+    this.isHidden = false;
+    this.patrol(); // Elegir spot antes de mostrar
+    this.container.classList.remove('hidden');
+    this.backflip();
+    
+    setTimeout(() => {
+      this.say("¡Aquí estoy de nuevo! ¿En qué puedo ayudarte?");
+    }, 1000);
+  },
   
   say(message, important = false) {
-    if (!this.bubble || !this.text) return;
+    if (!this.bubble || !this.text || this.isHidden) return;
     this.text.textContent = message;
     this.bubble.classList.add('visible');
     
@@ -533,30 +650,31 @@ const LumiController = {
     if (newPos === 'peeking') {
       this.container.classList.add('peeking');
       if (Math.random() > 0.5) this.container.classList.add('left');
-      this.say("Solo me asomo para ver si necesitas ayuda...");
+      if (!this.isHidden) this.say("Solo me asomo para ver si necesitas ayuda...");
     } else if (newPos === 'center') {
       this.container.classList.add('center');
-      this.say("Desde aquí tengo una mejor vista de todo.");
+      if (!this.isHidden) this.say("Desde aquí tengo una mejor vista de todo.");
     } else if (newPos === 'left') {
       this.container.classList.add('left');
-      this.say("Cambiando de posición estratégica.");
+      if (!this.isHidden) this.say("Cambiando de posición estratégica.");
     } else {
-      this.say("Regresando a mi rincón favorito.");
+      if (!this.isHidden) this.say("Regresando a mi rincón favorito.");
     }
 
     setTimeout(() => {
       this.container.classList.remove('flying');
-      if (Math.random() > 0.6) this.backflip();
+      if (Math.random() > 0.6 && !this.isHidden) this.backflip();
     }, 850);
   },
 
   backflip() {
+    if (this.isHidden) return;
     this.container.classList.add('backflip');
     setTimeout(() => this.container.classList.remove('backflip'), 800);
   },
 
   checkInactivity() {
-    if (Date.now() - this.lastActivity > 30000 && !this.isResting) {
+    if (Date.now() - this.lastActivity > 30000 && !this.isResting && !this.isHidden) {
       this.isResting = true;
       this.container.classList.add('resting');
       this.say("Entrando en modo descanso visual...");
@@ -574,6 +692,7 @@ const LumiController = {
   },
   
   wander() {
+    if (this.isHidden) return;
     // Sutil movimiento orgánico
     const x = Math.floor(Math.random() * 10) - 5;
     const y = Math.floor(Math.random() * 10) - 5;
@@ -582,7 +701,7 @@ const LumiController = {
   
   handleScroll() {
     const scrollPercent = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
-    if (scrollPercent > 0.95) {
+    if (scrollPercent > 0.95 && !this.isHidden) {
       this.say("Antes de irte, recuerda agendar tu revisión anual.", true);
     }
   }
