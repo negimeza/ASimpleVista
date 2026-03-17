@@ -364,7 +364,7 @@ const AppointmentForm = {
   },
 
   buildWhatsAppMessage() {
-    const NL = '%0A';
+    const NL = '\n';
     const { nombre, apellido, tel, servicio, fecha, nota } = this.fields;
 
     let message = `🦉 *Solicitud de Cita – A Simple Vista*${NL}${NL}`;
