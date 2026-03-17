@@ -287,13 +287,14 @@ nav.scrolled {
 .hamburger span {
   display: block;
   width: 24px;
-  height: 2px;
+  height: 3px;
   background: var(--cream);
+  border-radius: 3px;
   transition: transform var(--transition-slow), opacity var(--transition-slow);
 }
 
 .hamburger.active span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+  transform: translateY(8px) rotate(45deg);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -301,7 +302,7 @@ nav.scrolled {
 }
 
 .hamburger.active span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+  transform: translateY(-8px) rotate(-45deg);
 }
 
 /* ========================================
@@ -1404,6 +1405,19 @@ footer {
 }
 
 @media (max-width: 600px) {
+  nav {
+    padding: var(--spacing-sm) 4%;
+  }
+
+  .logo-text span:first-child {
+    font-size: 1rem;
+  }
+
+  .logo svg {
+    width: 38px;
+    height: 38px;
+  }
+
   section {
     padding: 5rem 5%;
   }
